@@ -1,22 +1,25 @@
-worldName: example-world-name
-serverName: example-server-name
-password: password 
+worldName: schoon1
+serverName: Schoonheim
+password: 
 
-resources: {}
+resources: 
+  requests:
+    memory: "4Gi"
+    cpu: "2000m"
 
 image:
   repository: lloesche/valheim-server
   tag: latest
 
 storage:
-  kind: hostvol
+  kind: persistentVolumeClaim
   hostvol:
     path: /data/valheim
   pvc:
     size: 1Gi
 
 serverStorage:
-  kind: hostvol
+  kind: persistentVolumeClaim
   hostvol:
     path: /data/valheim-server
   pvc:
@@ -27,6 +30,11 @@ networking:
   gamePort: 2456
   publishQueryPort: "true"
   nodePort: 30373
+
+extraEnvironmentVars:
+  SERVER_ARGS: "-preset normal -modifier portals casual -modifier deathpenalty casual"
+  ADMINLIST_IDS: "76561198045918479 76561198049776133"
+  #STEAMCMD_ARGS: "-preset easy"
 
 
 nodeSelector: {}
